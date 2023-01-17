@@ -3,10 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   UseGuards,
   Request,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
@@ -29,7 +29,7 @@ export class UsersController {
 
   @Get()
   findAll(@Request() req) {
-    return this.usersService.findAll(req.user);
+    return this.usersService.findAll(req.query, req.user);
   }
 
   @Get(':id')
@@ -37,7 +37,7 @@ export class UsersController {
     return this.usersService.findOne(Number(id), req.user);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,

@@ -8,6 +8,7 @@ import { PrismaService } from 'src/config/database/prisma/prisma.service';
 
 import { AppError } from 'src/errors/AppError';
 import { IJwtUser } from 'src/auth/interfaces/IJwtUser';
+import { IQueryFindAll } from './interfaces/IQueryFindAll';
 
 @Injectable()
 export class UsersService {
@@ -42,19 +43,46 @@ export class UsersService {
         permission,
         phone,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+      },
     });
   }
 
-  findAll(loggedInUser: IJwtUser) {
+  findAll({ name, email }: IQueryFindAll, loggedInUser: IJwtUser) {
     if (loggedInUser.permission != 'admin') {
       return this.prisma.user.findMany({
         where: {
           id: loggedInUser.id,
         },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+        },
       });
     }
 
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      where: {
+        name: {
+          contains: name,
+        },
+        email: {
+          contains: email,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+      },
+    });
   }
 
   findOne(id: number, loggedInUser: IJwtUser) {
@@ -70,6 +98,13 @@ export class UsersService {
       where: {
         id,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        permission: true,
+      },
     });
   }
 
@@ -83,7 +118,7 @@ export class UsersService {
 
   async update(
     id: number,
-    { name, email, password, permission, phone }: CreateUserDto,
+    { name, email, password, permission, phone }: UpdateUserDto,
     loggedInUser: IJwtUser,
   ) {
     if (loggedInUser.permission != 'admin' && loggedInUser.id != id) {
@@ -94,7 +129,9 @@ export class UsersService {
       );
     }
 
-    const user = await this.prisma.user.findUnique({ where: { id } });
+    const user = await this.prisma.user.findUnique({
+      where: { id: Number(id) },
+    });
 
     if (!user) {
       throw new AppError(['User not exists'], 'Bad Request', 400);
@@ -130,6 +167,12 @@ export class UsersService {
         password: password ? passwordHash : user.password,
         permission,
         phone,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
       },
     });
   }
