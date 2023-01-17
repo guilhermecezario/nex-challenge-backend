@@ -30,12 +30,26 @@ npm run build
 npm start
 ```
 
+## Usuario admin
+
+```json
+{
+  "password": "nextar",
+  "email": "mecontratanex@nextar.com.br",
+}
+```
+
 ## Documentação
 
 
 ```http
 GET /users
 ```
+
+```http
+ Headers Authenticate Bearer {token}
+```
+
 Não á parâmetros
 
 ### resposta
@@ -57,6 +71,10 @@ Não á parâmetros
 GET /users/:id
 ```
 
+```http
+ Headers Authenticate Bearer {token}
+```
+
 Não á parâmetros
 
 ### resposta
@@ -74,6 +92,10 @@ Não á parâmetros
 
 ```http
 POST /users
+```
+
+```http
+ Headers Authenticate Bearer {token}
 ```
 
 | Parâmetros | Tipo | Descrição |
@@ -99,6 +121,10 @@ POST /users
 
 ```http
 PUT /users/:id
+```
+
+```http
+ Headers Authenticate Bearer {token}
 ```
 
 | Parâmetros | Tipo | Descrição |
