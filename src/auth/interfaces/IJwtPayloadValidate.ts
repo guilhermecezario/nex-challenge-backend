@@ -1,5 +1,5 @@
 export interface IJwtPayloadValidate {
   sub: number;
-  name: string;
+  email: string;
   permission: string;
 }

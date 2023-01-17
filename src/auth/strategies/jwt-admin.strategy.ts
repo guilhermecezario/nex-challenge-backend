@@ -1,12 +1,14 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
+
 import { Injectable } from '@nestjs/common';
+import { AppError } from 'src/errors/AppError';
 
 import { IJwtPayloadValidate } from '../interfaces/IJwtPayloadValidate';
 import { IJwtUser } from '../interfaces/IJwtUser';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtAdminStrategy extends PassportStrategy(Strategy, 'jwt-admin') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -16,6 +18,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: IJwtPayloadValidate): IJwtUser {
+    if (payload.permission != 'admin') {
+      throw new AppError(
+        ['User does not have permission'],
+        'Unauthorized',
+        401,
+      );
+    }
+
     return {
       id: payload.sub,
       email: payload.email,

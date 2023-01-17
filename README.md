@@ -1,73 +1,158 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Challenge Nex
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Utilizando [NestJs](https://nestjs.com/)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Configurando
 
-## Description
+1. Renomeie o arquivo [.env.example](.env.example) para `.env` e adicione as variaveis ambiente
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Inicializando
 
-## Installation
-
-```bash
-$ yarn install
+```sh
+# 1. Rode as migrations e as seeds do projeto com
+npx prisma migrate dev && npx prisma db seed
 ```
 
-## Running the app
+## Rodando em desenvolvimento
 
-```bash
-# development
-$ yarn run start
+```sh
+npm run start:dev
 
-# watch mode
-$ yarn run start:dev
+```
+abra [http://localhost:3000](http://localhost:3000)
 
-# production mode
-$ yarn run start:prod
+## Rodando em produção
+
+```sh
+npm run lint
+npm run build
+
+npm start
 ```
 
-## Test
+## Documentação
 
-```bash
-# unit tests
-$ yarn run test
 
-# e2e tests
-$ yarn run test:e2e
+```http
+GET /users
+```
+Não á parâmetros
 
-# test coverage
-$ yarn run test:cov
+### resposta
+
+```json
+[
+	{
+		"id": number,
+		"name": string,
+		"password": string,
+		"email": string,
+		"permission": string,
+		"phone": string
+	},
+]
 ```
 
-## Support
+```http
+GET /users/:id
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Não á parâmetros
 
-## Stay in touch
+### resposta
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```json
+{
+  "id": number,
+  "name": string,
+  "password": string,
+  "email": string,
+  "permission": string,
+  "phone": string
+},
+```
 
-## License
+```http
+POST /users
+```
 
-Nest is [MIT licensed](LICENSE).
+| Parâmetros | Tipo | Descrição |
+| :--- | :--- | :--- |
+| `name` | `string` | **Obrigatório** |
+| `password` | `string` | **Obrigatório** mínimo 4 caracteres |
+| `email` | `string` | **Obrigatório**. Campo unico |
+| `permission` | `string` | admin ou standerd, padrão standerd |
+| `phone` | `string` | **Obrigatório**. Campo unico |
+
+### resposta
+
+```json
+{
+  "id": number,
+  "name": string,
+  "password": string,
+  "email": string,
+  "permission": string,
+  "phone": string
+},
+```
+
+```http
+PUT /users/:id
+```
+
+| Parâmetros | Tipo | Descrição |
+| :--- | :--- | :--- |
+| `name` | `string` | **Obrigatório** |
+| `password` | `string` | **Obrigatório** mínimo 4 caracteres |
+| `email` | `string` | **Obrigatório**. Campo unico |
+| `permission` | `string` | admin ou standerd, padrão standerd |
+| `phone` | `string` | **Obrigatório**. Campo unico |
+
+### resposta
+
+```json
+{
+  "id": number,
+  "name": string,
+  "password": string,
+  "email": string,
+  "permission": string,
+  "phone": string
+},
+```
+
+```http
+POST /sessions
+```
+
+| Parâmetros | Tipo | Descrição |
+| :--- | :--- | :--- |
+| `email` | `string` | **Obrigatório**. Campo unico |
+| `password` | `string` | **Obrigatório** mínimo 4 caracteres |
+
+### resposta
+
+```json
+{
+  "access_token": string
+},
+```
+
+## Respostas de erros
+
+```json
+{
+  "statusCode": number,
+  "message": string[],
+  "error": string,
+},
+```
+
+## O que foi usado nesse projeto
+
+- [NestJs](https://nestjs.com/), Uma estrutura Node.js progressiva para criar aplicativos do lado do servidor eficientes, confiáveis ​​e escaláveis.
+- [Prisma](https://www.prisma.io/), O Prisma desbloqueia um novo nível de experiência do desenvolvedor ao trabalhar com bancos de dados
+- [JWT](https://jwt.io/) JWT permite decodificar, verificar e gerar JWT.
+- [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) Uma biblioteca para ajudá-lo a hash senhas.
+- [NestJs Authentication](https://docs.nestjs.com/security/authentication) Para efetuar authenticação e validação de token
