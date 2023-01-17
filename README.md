@@ -1,5 +1,7 @@
 # Challenge Nex
 
+Link de produção: [nex-challenge](https://nex-challenge.herokuapp.com).
+
 Utilizando [NestJs](https://nestjs.com/)
 
 ## Configurando
